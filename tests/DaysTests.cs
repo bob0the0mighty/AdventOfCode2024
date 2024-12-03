@@ -1,8 +1,15 @@
+using System.Runtime.CompilerServices;
 using AdventOfCode2024;
 
 namespace tests;
 
+public static class Parts
+{
+    public static string Part1 { get { return "Part 1";} }
+    public static string Part2 { get { return "Part 2";} }
+}
 
+[Parallelizable]
 public class DaysTests
 {
 
@@ -13,55 +20,76 @@ public class DaysTests
     {
     }
 
-    private void RunTestForDayPart1(string day)
+    private void RunTestForDayPart(string day, string part, bool skipActual = false, string testName = "test", string inputName = "input")
     {
-        var testInput = rootTestDir + @$"\testData\{day}\test";
         var t = Type.GetType($"AdventOfCode2024.{day}, AdventOfCode2024, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-        var dayClass = (DayTemplate) Activator.CreateInstance(t, testInput);
-        Console.WriteLine($"{day} Part 1, test: {dayClass?.Part1()}");
-        Assert.NotNull(dayClass?.Part1());
+        var testInput = rootTestDir + @$"\testData\{day}\{testName}";
+        var dayClass = (DayTemplate)Activator.CreateInstance(t, testInput);
+        int? result = CallDayPart(day, part, dayClass);
 
-        var dayInput = rootTestDir + @$"\testData\{day}\input";
-        dayClass?.SetLines(dayInput);
-        Console.WriteLine($"{day} Part 1, actual: {dayClass?.Part1()}");
-        Assert.NotNull(dayClass?.Part1());
+        if (!skipActual)
+        {
+            var dayInput = rootTestDir + @$"\testData\{day}\{inputName}";
+            dayClass?.SetLines(dayInput);
+            CallDayPart(day, part, dayClass);
+        }
     }
 
-    private void RunTestForDayPart2(string day)
+    private static int? CallDayPart(string day, string part, DayTemplate? dayClass)
     {
-        var testInput = rootTestDir + @$"\testData\{day}\test";
-        var t = Type.GetType($"AdventOfCode2024.{day}, AdventOfCode2024, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-        var dayClass = (DayTemplate) Activator.CreateInstance(t, testInput);
-        Console.WriteLine($"{day} Part 2, test: {dayClass?.Part2()}");
-        Assert.NotNull(dayClass?.Part2());
-
-        var dayInput = rootTestDir + @$"\testData\{day}\input";
-        dayClass?.SetLines(dayInput);
-        Console.WriteLine($"{day} Part 2, actual: {dayClass?.Part2()}");
-        Assert.NotNull(dayClass?.Part2());
+        int? result = 0;
+        if (part == Parts.Part1)
+        {
+            result = dayClass?.Part1();
+        }
+        else
+        {
+            result = dayClass?.Part2();
+        }
+        Console.WriteLine($"{day} {part}, test: {result}");
+        Assert.NotNull(result);
+        return result;
     }
 
-[Test]
+    [Test]
+    [Parallelizable]
     public void Day1Test1()
     {
-        RunTestForDayPart1("Day1");
+        RunTestForDayPart("Day1", Parts.Part1);
     }
 
     [Test]
+    [Parallelizable]
     public void Day1Test2()
     {
-        RunTestForDayPart2("Day1");
+        RunTestForDayPart("Day1", Parts.Part2);
     }
 
     [Test]
+    [Parallelizable]
     public void Day2Test1()
     {
-        RunTestForDayPart1("Day2");
+        RunTestForDayPart("Day2", Parts.Part1);
     }
 
     [Test]
+    [Parallelizable]
     public void Day2Test2()
     {
-        RunTestForDayPart2("Day2");
+        RunTestForDayPart("Day2", Parts.Part2);
+    }
+
+    [Test]
+    [Parallelizable]
+    public void Day3Test1()
+    {
+        RunTestForDayPart("Day3", Parts.Part1);
+    }
+
+    [Test]
+    [Parallelizable]
+    public void Day3Test2()
+    {
+        RunTestForDayPart("Day3", Parts.Part2, testName: "test2");
     }
 }

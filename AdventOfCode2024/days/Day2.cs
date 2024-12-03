@@ -1,6 +1,3 @@
-using System.Runtime.ExceptionServices;
-using System.Text;
-
 namespace AdventOfCode2024;
 
 public class Day2 : DayTemplate
