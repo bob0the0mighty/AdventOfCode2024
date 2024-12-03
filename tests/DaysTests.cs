@@ -13,31 +13,55 @@ public class DaysTests
     {
     }
 
-    [Test]
+    private void RunTestForDayPart1(string day)
+    {
+        var testInput = rootTestDir + @$"\testData\{day}\test";
+        var t = Type.GetType($"AdventOfCode2024.{day}, AdventOfCode2024, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+        var dayClass = (DayTemplate) Activator.CreateInstance(t, testInput);
+        Console.WriteLine($"{day} Part 1, test: {dayClass?.Part1()}");
+        Assert.NotNull(dayClass?.Part1());
+
+        var dayInput = rootTestDir + @$"\testData\{day}\input";
+        dayClass?.SetLines(dayInput);
+        Console.WriteLine($"{day} Part 1, actual: {dayClass?.Part1()}");
+        Assert.NotNull(dayClass?.Part1());
+    }
+
+    private void RunTestForDayPart2(string day)
+    {
+        var testInput = rootTestDir + @$"\testData\{day}\test";
+        var t = Type.GetType($"AdventOfCode2024.{day}, AdventOfCode2024, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+        var dayClass = (DayTemplate) Activator.CreateInstance(t, testInput);
+        Console.WriteLine($"{day} Part 2, test: {dayClass?.Part2()}");
+        Assert.NotNull(dayClass?.Part2());
+
+        var dayInput = rootTestDir + @$"\testData\{day}\input";
+        dayClass?.SetLines(dayInput);
+        Console.WriteLine($"{day} Part 2, actual: {dayClass?.Part2()}");
+        Assert.NotNull(dayClass?.Part2());
+    }
+
+[Test]
     public void Day1Test1()
     {
-        var testInput = File.ReadAllLines(rootTestDir+@"\testData\Day1\test");
-        Day1 day = new Day1(testInput);
-        Console.WriteLine(day.Part1());
-        Assert.NotZero(day.Part1());
-
-        var dayInput = File.ReadAllLines(rootTestDir+@"\testData\Day1\input");
-        day.lines = dayInput;
-        Console.WriteLine(day.Part1());
-        Assert.NotZero(day.Part1());
+        RunTestForDayPart1("Day1");
     }
 
     [Test]
     public void Day1Test2()
     {
-        var testInput = File.ReadAllLines(rootTestDir+@"\testData\Day1\test");
-        Day1 day = new Day1(testInput);
-        Console.WriteLine(day.Part2());
-        Assert.NotZero(day.Part2());
+        RunTestForDayPart2("Day1");
+    }
 
-        var dayInput = File.ReadAllLines(rootTestDir+@"\testData\Day1\input");
-        day.lines = dayInput;
-        Console.WriteLine(day.Part2());
-        Assert.NotZero(day.Part2());
+    [Test]
+    public void Day2Test1()
+    {
+        RunTestForDayPart1("Day2");
+    }
+
+    [Test]
+    public void Day2Test2()
+    {
+        RunTestForDayPart2("Day2");
     }
 }

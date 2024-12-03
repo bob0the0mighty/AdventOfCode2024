@@ -1,15 +1,10 @@
 ﻿namespace AdventOfCode2024;
 
-public class Day1
+public class Day1 : DayTemplate
 {
+    public Day1(string fileLocation): base(fileLocation){}
 
-    public string[] lines;
-
-    public Day1(string[] lines){
-        this.lines = lines;
-    }
-
-    public int Part1(){
+    public override int Part1(){
         var list1 = new List<int>();
         var list2 = new List<int>();
         
@@ -34,7 +29,7 @@ public class Day1
             .Sum();
     }
 
-    public int Part2(){
+    public override int Part2(){
         var list1 = new List<int>();
         var dict2 = new Dictionary<int, int>();
         
