@@ -52,42 +52,36 @@ public class DaysTests
     }
 
     [Test]
-    [Parallelizable]
     public void Day1Test1()
     {
         RunTestForDayPart("Day1", Parts.Part1);
     }
 
     [Test]
-    [Parallelizable]
     public void Day1Test2()
     {
         RunTestForDayPart("Day1", Parts.Part2);
     }
 
     [Test]
-    [Parallelizable]
     public void Day2Test1()
     {
         RunTestForDayPart("Day2", Parts.Part1);
     }
 
     [Test]
-    [Parallelizable]
     public void Day2Test2()
     {
         RunTestForDayPart("Day2", Parts.Part2);
     }
 
     [Test]
-    [Parallelizable]
     public void Day3Test1()
     {
         RunTestForDayPart("Day3", Parts.Part1);
     }
 
     [Test]
-    [Parallelizable]
     public void Day3Test2()
     {
         RunTestForDayPart("Day3", Parts.Part2, testName: "test2");
