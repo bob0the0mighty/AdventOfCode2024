@@ -52,38 +52,50 @@ public class DaysTests
     }
 
     [Test]
-    public void Day1Test1()
+    public void Day1Part1()
     {
         RunTestForDayPart("Day1", Parts.Part1);
     }
 
     [Test]
-    public void Day1Test2()
+    public void Day1Part2()
     {
         RunTestForDayPart("Day1", Parts.Part2);
     }
 
     [Test]
-    public void Day2Test1()
+    public void Day2Part1()
     {
         RunTestForDayPart("Day2", Parts.Part1);
     }
 
     [Test]
-    public void Day2Test2()
+    public void Day2Part2()
     {
         RunTestForDayPart("Day2", Parts.Part2);
     }
 
     [Test]
-    public void Day3Test1()
+    public void Day3Part1()
     {
         RunTestForDayPart("Day3", Parts.Part1);
     }
 
     [Test]
-    public void Day3Test2()
+    public void Day3Part2()
     {
-        RunTestForDayPart("Day3", Parts.Part2, testName: "test2");
+        RunTestForDayPart("Day3", Parts.Part2);
+    }
+
+    [Test]
+    public void Day4Part1()
+    {
+        RunTestForDayPart("Day3", Parts.Part1);
+    }
+
+    [Test]
+    public void Day4Part2()
+    {
+        RunTestForDayPart("Day3", Parts.Part2);
     }
 }
