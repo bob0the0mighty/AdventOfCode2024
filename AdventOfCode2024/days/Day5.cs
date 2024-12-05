@@ -1,118 +1,83 @@
+using System.Text.RegularExpressions;
+using System.Linq;
+
 namespace AdventOfCode2024;
 
-public class Day4 : DayTemplate
+public class Day5 : DayTemplate
 {
-    public Day4(string fileLocation) : base(fileLocation){}
+    public IEnumerable<string[]>? rules;
+    public IEnumerable<string[]>? updates;
+    public ILookup<string, string> rulesLookup;
+
+    public Day5(string fileLocation) : base(fileLocation){}
 
     public override int Part1()
     {
-        var xmasFound = 0;
-        for(var y = 0; y < lines.Length; ++y){
-            for(var x = 0; x < lines[y].Length; ++x){
-                if(lines[y][x] == 'X'){
-                    xmasFound += CountXmas(x, y);
-                }
+        this.rules = lines.Where(line => Regex.IsMatch(line, @"\d+\|\d+"))
+            .Select(line => line.Split("|"));
+        this.updates = lines.Where(line => Regex.IsMatch(line, @"\d+,"))
+            .Select(line => line.Split(","));
+
+        this.rulesLookup = rules.ToLookup(p => p[0], p => p[1]);
+
+        return updates.Where(pages =>
+            {
+                return checkForValidUpdate(pages, rulesLookup);
+            })
+        .Select(updates => int.Parse(updates[updates.Length/2]))
+        .Sum();
+    }
+
+    private static bool checkForValidUpdate(string[] pages, ILookup<string, string> rulesLookup)
+    {
+        for (var x = 1; x < pages.Length; ++x)
+        {
+            var currentPage = pages[x];
+            var previousPages = new ArraySegment<string>(pages, 0, x);
+            var badRules = previousPages.Intersect(rulesLookup[currentPage].ToArray());
+            if (badRules.Any())
+            {
+                return false;
             }
         }
-        return xmasFound;
+        return true;
     }
 
     public override int Part2()
     {
-        var xedMasFound = 0;
-        for(var y = 0; y < lines.Length; ++y){
-            for(var x = 0; x < lines[y].Length; ++x){
-                if(lines[y][x] == 'A'){
-                    xedMasFound += CountXedMas(x, y) ? 1 : 0;
-                }
-            }
-        }
-        return xedMasFound;
+        this.rules = lines.Where(line => Regex.IsMatch(line, @"\d+\|\d+"))
+            .Select(line => line.Split("|"));
+        this.updates = lines.Where(line => Regex.IsMatch(line, @"\d+,"))
+            .Select(line => line.Split(","));
+
+        this.rulesLookup = rules.ToLookup(p => p[0], p => p[1]);
+
+        return updates.Where(pages =>
+            {
+                return !checkForValidUpdate(pages, rulesLookup);
+            })
+        .Select(pages => UpdateOrdering(pages, rulesLookup))
+        .Select(updates => int.Parse(updates[updates.Length/2]))
+        .Sum();
     }
 
-    public int CountXmas(int x, int y) {
-        var xmasFound = 0;
-        //look in the eight directions
-        //right
-        if(x + 3 < lines[y].Length){
-            xmasFound += XmasExists(lines[y][x+1], lines[y][x+2], lines[y][x+3]) ? 1 : 0;
-        }
-        //diagonal down and right
-        if(y + 3 < lines.Length && x + 3 < lines[y].Length){
-            xmasFound += XmasExists(lines[y+1][x+1], lines[y+2][x+2], lines[y+3][x+3]) ? 1 : 0;
-        }
-        //down
-        if(y + 3 < lines.Length){
-            xmasFound += XmasExists(lines[y+1][x], lines[y+2][x], lines[y+3][x]) ? 1 : 0;
-        }
-        //diagonal down and left
-        if(y + 3 < lines.Length && x - 3 >= 0){
-            xmasFound += XmasExists(lines[y+1][x-1], lines[y+2][x-2], lines[y+3][x-3]) ? 1 : 0;
-        }
-        //left
-        if(x - 3 >= 0){
-            xmasFound += XmasExists(lines[y][x-1], lines[y][x-2], lines[y][x-3]) ? 1 : 0;
-        }
-        //diagonal up and left
-        if(y - 3 >= 0 && x - 3 >= 0){
-            xmasFound += XmasExists(lines[y-1][x-1], lines[y-2][x-2], lines[y-3][x-3]) ? 1 : 0;
-        }
-        //up
-        if(y - 3 >= 0){
-            xmasFound += XmasExists(lines[y-1][x], lines[y-2][x], lines[y-3][x]) ? 1 : 0;
-        }
-        //diagonal up and right
-        if(y - 3 >= 0 && x + 3 < lines[y].Length){
-            xmasFound += XmasExists(lines[y-1][x+1], lines[y-2][x+2], lines[y-3][x+3]) ? 1 : 0;
-        }
-        return xmasFound;
+    public static string[] UpdateOrdering(string[] pages, ILookup<string, string> ruleLookup){
+        var comparer = new PageComparator(ruleLookup);
+        var orderdPages = pages.OrderBy(x => x, comparer);
+        return orderdPages.ToArray();
+    }
+}
+
+public class PageComparator : IComparer<string>
+{
+    ILookup<string, string> lookup;
+
+    public PageComparator(ILookup<string, string> lookup){
+        this.lookup = lookup;
     }
 
-    public bool XmasExists(char m, char a, char s){
-        return m == 'M' && a == 'A' && s == 'S' ;
-    }
-
-    public bool CountXedMas(int x, int y) {
-        var xedMasFound = false;
-        //look in the four directions
-        //diagonal down and right
-        var topLeftShouldBe = 'B';
-        if(y + 1 < lines.Length && x + 1 < lines[y].Length){
-            if(MorS(lines[y+1][x+1])){
-                topLeftShouldBe = (lines[y+1][x+1] == 'M') ? 'S' : 'M';
-            }
-        } else {
-            return false;
-        }
-        //diagonal down and left
-        var topRightShouldBe = 'B';
-        if(y + 1 < lines.Length && x - 1 >= 0){
-            var morS = MorS(lines[y+1][x-1]);
-            if(MorS(lines[y+1][x-1])){
-                topRightShouldBe = (lines[y+1][x-1] == 'M') ? 'S' : 'M';
-            }
-        } else {
-            return false;
-        }
-
-        //diagonal up and left
-        if(y - 1 >= 0 && x - 1 >= 0 && lines[y-1][x-1] == topLeftShouldBe){
-            xedMasFound = true;
-        } else {
-            return false;
-        }
-
-        //diagonal up and right
-        if(y - 1 >= 0 && x + 1 < lines[y].Length && lines[y-1][x+1] == topRightShouldBe){
-            xedMasFound &= true;
-        } else {
-            return false;
-        }
-
-        return xedMasFound;
-    }
-
-    public bool MorS(char c){
-        return c == 'M' || c == 'S';
+    public int Compare(string? x, string? y)
+    {
+        return lookup.Contains(x) && lookup[x].Contains(y) ? -1 : 1;
     }
 }

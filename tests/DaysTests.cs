@@ -46,7 +46,7 @@ public class DaysTests
         {
             result = dayClass?.Part2();
         }
-        Console.WriteLine($"{day} {part}, test: {result}");
+        Console.WriteLine($"{day} {part}, result: {result}");
         Assert.NotNull(result);
         return result;
     }
@@ -97,5 +97,17 @@ public class DaysTests
     public void Day4Part2()
     {
         RunTestForDayPart("Day4", Parts.Part2);
+    }
+
+    [Test]
+    public void Day5Part1()
+    {
+        RunTestForDayPart("Day5", Parts.Part1);
+    }
+
+    [Test]
+    public void Day5Part2()
+    {
+        RunTestForDayPart("Day5", Parts.Part2);
     }
 }
