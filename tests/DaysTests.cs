@@ -84,18 +84,18 @@ public class DaysTests
     [Test]
     public void Day3Part2()
     {
-        RunTestForDayPart("Day3", Parts.Part2);
+        RunTestForDayPart("Day3", Parts.Part2, testName: "test2");
     }
 
     [Test]
     public void Day4Part1()
     {
-        RunTestForDayPart("Day3", Parts.Part1);
+        RunTestForDayPart("Day4", Parts.Part1);
     }
 
     [Test]
     public void Day4Part2()
     {
-        RunTestForDayPart("Day3", Parts.Part2);
+        RunTestForDayPart("Day4", Parts.Part2);
     }
 }
