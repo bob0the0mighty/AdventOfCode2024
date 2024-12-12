@@ -4,17 +4,18 @@ public class Day2 : DayTemplate
 {
     public Day2(string fileLocation) : base(fileLocation){}
 
-    public override int Part1(){
+    public override string Part1(){
         return lines.Select(line => {
             var ints = line.Split(" ")
                         .Select(int.Parse);
             return checkIfGood(ints);
         })
         .Where(isGood => isGood)
-        .Count();
+        .Count()
+        .ToString();
     }
 
-    public override int Part2(){
+    public override string Part2(){
         return lines.Select(line =>
         {
             var ints = line.Split(" ")
@@ -32,7 +33,8 @@ public class Day2 : DayTemplate
             return isGood;
         })
         .Where(isGood => isGood)
-        .Count();
+        .Count()
+        .ToString();
     }
 
     private static bool checkIfGood(IEnumerable<int> ints)

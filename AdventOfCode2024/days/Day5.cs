@@ -1,5 +1,4 @@
 using System.Text.RegularExpressions;
-using System.Linq;
 
 namespace AdventOfCode2024;
 
@@ -11,7 +10,7 @@ public class Day5 : DayTemplate
 
     public Day5(string fileLocation) : base(fileLocation){}
 
-    public override int Part1()
+    public override string Part1()
     {
         this.rules = lines.Where(line => Regex.IsMatch(line, @"\d+\|\d+"))
             .Select(line => line.Split("|"));
@@ -25,7 +24,8 @@ public class Day5 : DayTemplate
                 return checkForValidUpdate(pages, rulesLookup);
             })
         .Select(updates => int.Parse(updates[updates.Length/2]))
-        .Sum();
+        .Sum()
+        .ToString();
     }
 
     private static bool checkForValidUpdate(string[] pages, ILookup<string, string> rulesLookup)
@@ -43,7 +43,7 @@ public class Day5 : DayTemplate
         return true;
     }
 
-    public override int Part2()
+    public override string Part2()
     {
         this.rules = lines.Where(line => Regex.IsMatch(line, @"\d+\|\d+"))
             .Select(line => line.Split("|"));
@@ -58,7 +58,8 @@ public class Day5 : DayTemplate
             })
         .Select(pages => UpdateOrdering(pages, rulesLookup))
         .Select(updates => int.Parse(updates[updates.Length/2]))
-        .Sum();
+        .Sum()
+        .ToString();
     }
 
     public static string[] UpdateOrdering(string[] pages, ILookup<string, string> ruleLookup){

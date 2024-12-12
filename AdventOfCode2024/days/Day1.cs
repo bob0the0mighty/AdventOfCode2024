@@ -4,7 +4,7 @@ public class Day1 : DayTemplate
 {
     public Day1(string fileLocation): base(fileLocation){}
 
-    public override int Part1(){
+    public override string Part1(){
         var list1 = new List<int>();
         var list2 = new List<int>();
         
@@ -26,10 +26,11 @@ public class Day1 : DayTemplate
                     return val.y - val.x;
                 } 
             })
-            .Sum();
+            .Sum()
+            .ToString();
     }
 
-    public override int Part2(){
+    public override string Part2(){
         var list1 = new List<int>();
         var dict2 = new Dictionary<int, int>();
         
@@ -41,6 +42,7 @@ public class Day1 : DayTemplate
         }
 
         return list1.Select( val => val * dict2.GetValueOrDefault(val, 0))
-            .Sum();
+            .Sum()
+            .ToString();
     }
 }

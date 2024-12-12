@@ -12,7 +12,7 @@ public abstract class DayTemplate
         lines = File.ReadAllLines(fileLocation);
     }
 
-    public abstract int Part1();
+    public abstract string Part1();
 
-    public abstract int Part2();
+    public abstract string Part2();
 }

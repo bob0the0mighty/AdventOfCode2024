@@ -11,7 +11,7 @@ public class Day3 : DayTemplate
 
     public Day3(string fileLocation) : base(fileLocation){}
 
-    public override int Part1()
+    public override string Part1()
     {
         var input = string.Join("", lines);
         var matches = mulReg.Matches(input);
@@ -21,10 +21,11 @@ public class Day3 : DayTemplate
                 .Select(int.Parse)
                 .Aggregate((x, y) => x * y)
             )
-            .Sum();
+            .Sum()
+            .ToString();
     }
 
-    public override int Part2()
+    public override string Part2()
     {
         var input = string.Join("", lines);
         var mulMatches = mulReg.Matches(input);
@@ -47,6 +48,7 @@ public class Day3 : DayTemplate
                     .Aggregate((x, y) => x * y);
                 }
             })
-            .Sum();
+            .Sum()
+            .ToString();
     }
 }

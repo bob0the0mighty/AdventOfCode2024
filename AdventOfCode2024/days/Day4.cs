@@ -4,7 +4,7 @@ public class Day4 : DayTemplate
 {
     public Day4(string fileLocation) : base(fileLocation){}
 
-    public override int Part1()
+    public override string Part1()
     {
         var xmasFound = 0;
         for(var y = 0; y < lines.Length; ++y){
@@ -14,10 +14,10 @@ public class Day4 : DayTemplate
                 }
             }
         }
-        return xmasFound;
+        return xmasFound.ToString();
     }
 
-    public override int Part2()
+    public override string Part2()
     {
         var xedMasFound = 0;
         for(var y = 0; y < lines.Length; ++y){
@@ -27,7 +27,7 @@ public class Day4 : DayTemplate
                 }
             }
         }
-        return xedMasFound;
+        return xedMasFound.ToString();
     }
 
     public int CountXmas(int x, int y) {

@@ -25,7 +25,7 @@ public class DaysTests
         var t = Type.GetType($"AdventOfCode2024.{day}, AdventOfCode2024, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
         var testInput = rootTestDir + @$"\testData\{day}\{testName}";
         var dayClass = (DayTemplate)Activator.CreateInstance(t, testInput);
-        int? result = CallDayPart(day, part, dayClass);
+        string result = CallDayPart(day, part, dayClass);
 
         if (!skipActual)
         {
@@ -35,9 +35,9 @@ public class DaysTests
         }
     }
 
-    private static int? CallDayPart(string day, string part, DayTemplate? dayClass)
+    private static string CallDayPart(string day, string part, DayTemplate? dayClass)
     {
-        int? result = 0;
+        var result = "";
         if (part == Parts.Part1)
         {
             result = dayClass?.Part1();
@@ -109,5 +109,41 @@ public class DaysTests
     public void Day5Part2()
     {
         RunTestForDayPart("Day5", Parts.Part2);
+    }
+
+    [Test]
+    public void Day6Part1()
+    {
+        RunTestForDayPart("Day6", Parts.Part1);
+    }
+
+    [Test]
+    public void Day6Part2()
+    {
+        RunTestForDayPart("Day6", Parts.Part2, skipActual: true);
+    }
+
+    [Test]
+    public void Day7Part1()
+    {
+        RunTestForDayPart("Day7", Parts.Part1);
+    }
+
+    [Test]
+    public void Day7Part2()
+    {
+        RunTestForDayPart("Day7", Parts.Part2);
+    }
+
+    [Test]
+    public void Day8Part1()
+    {
+        RunTestForDayPart("Day8", Parts.Part1);
+    }
+
+    [Test]
+    public void Day8Part2()
+    {
+        RunTestForDayPart("Day8", Parts.Part2);
     }
 }
